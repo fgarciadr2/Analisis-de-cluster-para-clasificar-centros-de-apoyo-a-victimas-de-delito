@@ -71,20 +71,20 @@ simpleCap <- function(x) {
 stand <- function(x){(x-min(x))/(max(x)-min(x))}
 
 
-
+#Funci√≥n para eliminar may√∫sculas y caracteres especiales, para hacer m√°s f√°cil la redacci√≥n del c√≥digo
 limpiar.nombre <- function(x){
   y <- colnames(x)
   y <- gsub(" ", ".", y)
   y <- gsub("\\.de\\.", ".", y)
   y <- gsub("\\/", ".", y)
-  y <- gsub("\\∞", "", y)
+  y <- gsub("\\¬∞", "", y)
   y <- trimws(y)
   y <- tolower(y)
   y <- stri_trans_general(y, "Latin-ASCII")
   return(y)
 }
 
-#Guardar leyenda del gr·fico
+#Guardar leyenda del gr√°fico
 
 g_legend<-function(a.gplot){
   tmp <- ggplot_gtable(ggplot_build(a.gplot))
@@ -92,7 +92,7 @@ g_legend<-function(a.gplot){
   legend <- tmp$grobs[[leg]]
   return(legend)}
 
-####Datos####
+####Importar datos####
 
 setwd("C:/Users/lgarcia/Documents/2019/08 Agosto/Clusters")
 setwd("C:/Users/felip/Google Drive/Clusters CAVD")
@@ -103,7 +103,7 @@ colnames(ssra) <- limpiar.nombre(ssra)
 ipa <- fread("Agenda.csv") 
 colnames(ipa) <- limpiar.nombre(ipa)
 
-ingesa <- fread("GestiÛn.csv")
+ingesa <- fread("Gesti√≥n.csv")
 colnames(ingesa) <- limpiar.nombre(ingesa)
 ingesa <- ingesa %>% 
   select( -num) %>%
@@ -131,16 +131,16 @@ macro <- macroa %>%
   ),
   cavd2 = recode(cavd,
                  "Ancud" = "Castro",
-                 "PeÒalolen" = "Providencia",
-                 "AysÈn" = "Coyhaique",
+                 "Pe√±alolen" = "Providencia",
+                 "Ays√©n" = "Coyhaique",
                  "Collipulli" = "Angol",
                  "Til Til" = "Colina",
                  "Purranque" = "Osorno",
                  "Collipulli" = "Temuco",
                  "Puerto Natales" = "Punta Arenas",
-                 "San Antonio" = "ValparaÌso",
-                 "QuellÛn" = "Castro",
-                 "Los Angeles" = "Los ¡ngeles")
+                 "San Antonio" = "Valpara√≠so",
+                 "Quell√≥n" = "Castro",
+                 "Los Angeles" = "Los √Ångeles")
   ) %>%
   modify_if(is.character, as.factor)
 
@@ -150,16 +150,16 @@ ssra <- ssra %>%
   mutate(cavd = trimws(gsub("\\d+", "", cavd)),
          cavd2 = recode(cavd,
                         "Ancud" = "Castro",
-                        "PeÒalolen" = "Providencia",
-                        "AysÈn" = "Coyhaique",
+                        "Pe√±alolen" = "Providencia",
+                        "Ays√©n" = "Coyhaique",
                         "Collipulli" = "Angol",
                         "Til Til" = "Colina",
                         "Purranque" = "Osorno",
                         "Collipulli" = "Temuco",
                         "Puerto Natales" = "Punta Arenas",
-                        "San Antonio" = "ValparaÌso",
-                        "QuellÛn" = "Castro",
-                        "Los Angeles" = "Los ¡ngeles"),
+                        "San Antonio" = "Valpara√≠so",
+                        "Quell√≥n" = "Castro",
+                        "Los Angeles" = "Los √Ångeles"),
          delito2 = recode(delito
                           ,"Cuasidelitos de homicidio"="Cuasidelito de lesiones u homicidio"
                           ,"Cuasidelitos de lesiones"="Cuasidelito de lesiones u homicidio"
@@ -169,7 +169,7 @@ ssra <- ssra %>%
                           ,"Femicidio frustrado"="Otro tipo de delito"
                           ,"Homicidio"="Homicidio"
                           ,"Lesiones graves"="Lesiones"
-                          ,"Lesiones graves gravÌsimas"="Lesiones"
+                          ,"Lesiones graves grav√≠simas"="Lesiones"
                           ,"Lesiones leves"="Lesiones"
                           ,"Lesiones menos graves"="Lesiones"
                           ,"No corresponde"="Otro tipo de delito"
@@ -178,20 +178,20 @@ ssra <- ssra %>%
                           ,"Parricidio consumado"="Homicidio"
                           ,"Parricidio frustrado"="Otro tipo de delito"
                           ,"Robo con homicidio"="Homicidio"
-                          ,"Robo con intimidaciÛn"="Robos violentos"
-                          ,"Robo con violaciÛn"="Delitos sexuales"
+                          ,"Robo con intimidaci√≥n"="Robos violentos"
+                          ,"Robo con violaci√≥n"="Delitos sexuales"
                           ,"Robo con violencia"="Robos violentos"
                           ,"Secuestro"="Otro tipo de delito"
-                          ,"Sin informaciÛn"="Otro tipo de delito"
-                          ,"Sustracci¢n  menores"="Otro tipo de delito"
-                          ,"SustracciÛn menores"="Otro tipo de delito"
+                          ,"Sin informaci√≥n"="Otro tipo de delito"
+                          ,"Sustracci¬¢n  menores"="Otro tipo de delito"
+                          ,"Sustracci√≥n menores"="Otro tipo de delito"
                           ,"Trata de personas fines laborales"="Otro tipo de delito"
                           ,"Trata de personas fines sexuales"="Otro tipo de delito"
-                          ,"Trata de Personas Tr·fico IlÌcito de Inmigrantes"="Otro tipo de delito"),
-         etario = ifelse(edad < 18, "NNA (Menores de 18 aÒos)", if_else(
-           (edad >= 18 & edad < 30), "JÛvenes (18 a 29 aÒos)", ifelse(
-             (edad >= 30 & edad < 60), "Adultos (30 a 59 aÒos)",
-             if_else(edad >= 60, "Adultos mayores (60 aÒos o m·s)",
+                          ,"Trata de Personas Tr√°fico Il√≠cito de Inmigrantes"="Otro tipo de delito"),
+         etario = ifelse(edad < 18, "NNA (Menores de 18 a√±os)", if_else(
+           (edad >= 18 & edad < 30), "J√≥venes (18 a 29 a√±os)", ifelse(
+             (edad >= 30 & edad < 60), "Adultos (30 a 59 a√±os)",
+             if_else(edad >= 60, "Adultos mayores (60 a√±os o m√°s)",
                      "Edad desconocida")))),
          etario=replace_na(etario,"Edad desconocida"),
          via.ingreso=recode(via.ingreso
@@ -199,12 +199,12 @@ ssra <- ssra %>%
                             ,"Sernam"="Otros derivantes"
                             ,"Servicios de salud"="Otros derivantes"
                             ,"Circuito de femicidio"="Otros derivantes"
-                            ,"1™ R SIIn - Interna"="SIIN"
-                            ,"1™ R SOI - Interna"="OrientaciÛn de SOI"
-                            ,"1™ R SOI - Sin telÈfono"="SOI (Tercer contacto o Sin telÈfono)"
-                            ,"1™ R CCP - Interna"="CCP"
-                            ,"1™ R SOI - 3er Contacto"="SOI (Tercer contacto o Sin telÈfono)"
-                            ,"Demanda espont·nea WEB"="Demanda espont·nea"
+                            ,"1¬™ R SIIn - Interna"="SIIN"
+                            ,"1¬™ R SOI - Interna"="Orientaci√≥n de SOI"
+                            ,"1¬™ R SOI - Sin tel√©fono"="SOI (Tercer contacto o Sin tel√©fono)"
+                            ,"1¬™ R CCP - Interna"="CCP"
+                            ,"1¬™ R SOI - 3er Contacto"="SOI (Tercer contacto o Sin tel√©fono)"
+                            ,"Demanda espont√°nea WEB"="Demanda espont√°nea"
                             ,"SRAV - Circuito Femicidio"="Otros derivantes")
   ) %>%
   filter(cavd2 %in% c("Cauquenes", "San Antonio") == F)
@@ -233,7 +233,7 @@ ssr <- ssra  %>%
                       "Las Condes") == F &
            delito %in% c("Trata de personas fines laborales",
                          "Trata de personas fines sexuales" ,
-                         "SustracciÛn menores",
+                         "Sustracci√≥n menores",
                          "Secuestro") == F) 
 
 
@@ -388,7 +388,7 @@ feriados <- as.Date(c(
   "2018-12-25 UTC"
 ), origin = "1970-01-01")
 
-fechasa <- fechas[!weekdays(fechas) %in% c('s·bado','domingo')]
+fechasa <- fechas[!weekdays(fechas) %in% c('s√°bado','domingo')]
 fechasa <- fechas[fechas %in% feriados == F]
 
 fechas <- rep(fechasa,length(levels(factor(ssr$cavd2))))
@@ -453,22 +453,22 @@ prest <- ipa %>%
   mutate(cavd = trimws(gsub("\\d+", "", cavd)),
          cavd2 = recode(cavd,
                         "Ancud" = "Castro",
-                        "PeÒalolen" = "Providencia",
-                        "AysÈn" = "Coyhaique",
+                        "Pe√±alolen" = "Providencia",
+                        "Ays√©n" = "Coyhaique",
                         "Collipulli" = "Angol",
                         "Til Til" = "Colina",
                         "Purranque" = "Osorno",
                         "Collipulli" = "Temuco",
                         "Puerto Natales" = "Punta Arenas",
-                        "San Antonio" = "ValparaÌso",
-                        "QuellÛn" = "Castro",
-                        "Los Angeles" = "Los ¡ngeles"),
+                        "San Antonio" = "Valpara√≠so",
+                        "Quell√≥n" = "Castro",
+                        "Los Angeles" = "Los √Ångeles"),
          esp2 = gsub(", Coordinador", "", especialidad),
          fecha.ingreso = factor(as.Date(fecha.ingreso)),
          esp2 = factor(esp2),
          categoria = factor(categoria)
   ) %>%
-  filter(esp2 %in% c("Abogado", "Profesional PsicÛlogo", "Social") &
+  filter(esp2 %in% c("Abogado", "Profesional Psic√≥logo", "Social") &
            categoria == "Directa c/sesion" &
            fecha.ingreso %in% fechasa) %>%
   group_by(cavd2, fecha.ingreso, esp2) %>%
@@ -476,7 +476,7 @@ prest <- ipa %>%
   ungroup() %>%
   complete(cavd2, fecha.ingreso, esp2,
            fill = list(n = 0)) %>%
-  filter(esp2 %in% c("Abogado", "Profesional PsicÛlogo", "Social") &
+  filter(esp2 %in% c("Abogado", "Profesional Psic√≥logo", "Social") &
            fecha.ingreso %in% fechasa) %>%
   group_by(cavd2, esp2) %>%
   dplyr::summarise(m = sum(n)) %>%
@@ -490,16 +490,16 @@ asist <- ipa %>%
   filter(ano.ingreso == 2018 
          & `sub-categoria`%in%c( "SC-Directa c/sesion",
                                  "Entrevista de ingreso",
-                                 "ValoraciÛn")) %>%
-  mutate(cavd = recode(cavd, "35 Los Angeles" = "35 Los ¡ngeles")) %>%
+                                 "Valoraci√≥n")) %>%
+  mutate(cavd = recode(cavd, "35 Los Angeles" = "35 Los √Ångeles")) %>%
   group_by(cavd) %>%
   dplyr::summarise(n = n()) %>%
   full_join(ipa %>%
-              mutate(cavd = recode(cavd, "35 Los Angeles" = "35 Los ¡ngeles")) %>%
+              mutate(cavd = recode(cavd, "35 Los Angeles" = "35 Los √Ångeles")) %>%
               filter(ano.ingreso == 2018 
                      & `sub-categoria`%in%c( "SC-Directa c/sesion",
                                              "Entrevista de ingreso",
-                                             "ValoraciÛn")) %>%
+                                             "Valoraci√≥n")) %>%
               group_by(cavd, asistencia) %>%
               filter(asistencia == "Si") %>%
               dplyr::summarise(n = n()),
@@ -510,22 +510,22 @@ asist <- ipa %>%
   filter(cavd2 %in% ssr$cavd2)
 
 
-#Llenar especialidades vacÌas
+#Llenar especialidades vac√≠as
 {
   ipa$especialidad <- if_else(ipa$nombre.usuario == "Alejandra Jimena Saez Morales", 
-                              "Profesional PsicÛlogo", 
+                              "Profesional Psic√≥logo", 
                               ipa$especialidad)
-  ipa$especialidad <- if_else(ipa$nombre.usuario == "Almendra Mikela Fern·ndez Sandoval", 
+  ipa$especialidad <- if_else(ipa$nombre.usuario == "Almendra Mikela Fern√°ndez Sandoval", 
                               "Social", 
                               ipa$especialidad)
-  ipa$especialidad <- if_else(ipa$nombre.usuario == "Alvaro Javier Reyes MuÒoz", 
-                              "Profesional PsicÛlogo", 
+  ipa$especialidad <- if_else(ipa$nombre.usuario == "Alvaro Javier Reyes Mu√±oz", 
+                              "Profesional Psic√≥logo", 
                               ipa$especialidad)
-  ipa$especialidad <- if_else(ipa$nombre.usuario == "Brusiel Arlette Bustos PeÒa", 
-                              "Profesional PsicÛlogo", 
+  ipa$especialidad <- if_else(ipa$nombre.usuario == "Brusiel Arlette Bustos Pe√±a", 
+                              "Profesional Psic√≥logo", 
                               ipa$especialidad)
-  ipa$especialidad <- if_else(ipa$nombre.usuario == "Cristian Mauricio CortÈs Reyes", 
-                              "Profesional PsicÛlogo, Coordinador", 
+  ipa$especialidad <- if_else(ipa$nombre.usuario == "Cristian Mauricio Cort√©s Reyes", 
+                              "Profesional Psic√≥logo, Coordinador", 
                               ipa$especialidad)
   ipa$especialidad <- if_else(ipa$nombre.usuario == "Danila Cecilia Bastias Herrera", 
                               "Abogado", 
@@ -542,19 +542,19 @@ asist <- ipa %>%
   ipa$especialidad <- if_else(ipa$nombre.usuario == "Flor Maria Fernandez Marambio", 
                               "Social, Coordinador", 
                               ipa$especialidad)
-  ipa$especialidad <- if_else(ipa$nombre.usuario == "Ignacio Antonio Jara S·nchez", 
+  ipa$especialidad <- if_else(ipa$nombre.usuario == "Ignacio Antonio Jara S√°nchez", 
                               "Abogado, Coordinador", 
                               ipa$especialidad)
-  ipa$especialidad <- if_else(ipa$nombre.usuario == "Javiera Patricia Ormaz·bal Saavedra", 
-                              "Profesional PsicÛlogo", 
+  ipa$especialidad <- if_else(ipa$nombre.usuario == "Javiera Patricia Ormaz√°bal Saavedra", 
+                              "Profesional Psic√≥logo", 
                               ipa$especialidad)
   ipa$especialidad <- if_else(ipa$nombre.usuario == "Jorge Andres Godoy Donoso", 
-                              "Profesional PsicÛlogo", 
+                              "Profesional Psic√≥logo", 
                               ipa$especialidad)
   ipa$especialidad <- if_else(ipa$nombre.usuario == "Karen Ines Matus Castillo", 
                               "Social", 
                               ipa$especialidad)
-  ipa$especialidad <- if_else(ipa$nombre.usuario == "Lilian Mercedes ZuÒiga Lizama", 
+  ipa$especialidad <- if_else(ipa$nombre.usuario == "Lilian Mercedes Zu√±iga Lizama", 
                               "Abogado", 
                               ipa$especialidad)
   ipa$especialidad <- if_else(ipa$nombre.usuario == "Marcela Paz del Rosario Albornoz Valdebenito", 
@@ -563,19 +563,19 @@ asist <- ipa %>%
   ipa$especialidad <- if_else(ipa$nombre.usuario == "Marcelo Alejandro Orellana Caro", 
                               "Abogado, Coordinador", 
                               ipa$especialidad)
-  ipa$especialidad <- if_else(ipa$nombre.usuario == "MarÌa AngÈlica Reyes Parot", 
-                              "Profesional PsicÛlogo, Coordinador", 
+  ipa$especialidad <- if_else(ipa$nombre.usuario == "Mar√≠a Ang√©lica Reyes Parot", 
+                              "Profesional Psic√≥logo, Coordinador", 
                               ipa$especialidad)
   ipa$especialidad <- if_else(ipa$nombre.usuario == "Maria Jose Soulodre Tisi", 
                               "Abogado", 
                               ipa$especialidad)
-  ipa$especialidad <- if_else(ipa$nombre.usuario == "Norma Natalia CaamaÒo Faundez", 
+  ipa$especialidad <- if_else(ipa$nombre.usuario == "Norma Natalia Caama√±o Faundez", 
                               "Social", 
                               ipa$especialidad)
   ipa$especialidad <- if_else(ipa$nombre.usuario == "Oliver Javier Fernandez Eguiluz", 
                               "Social, Coordinador", 
                               ipa$especialidad)
-  ipa$especialidad <- if_else(ipa$nombre.usuario == "Pablo Felipe RubiÒo Lazo", 
+  ipa$especialidad <- if_else(ipa$nombre.usuario == "Pablo Felipe Rubi√±o Lazo", 
                               "Abogado", 
                               ipa$especialidad)
   ipa$especialidad <- if_else(ipa$nombre.usuario == "Pamela del Pilar Maliqueo Aceval", 
@@ -584,19 +584,19 @@ asist <- ipa %>%
   ipa$especialidad <- if_else(ipa$nombre.usuario == "Rosa Adela Renin Miranda", 
                               "Abogado", 
                               ipa$especialidad)
-  ipa$especialidad <- if_else(ipa$nombre.usuario == "Roxana Elena CarreÒo Marchant", 
+  ipa$especialidad <- if_else(ipa$nombre.usuario == "Roxana Elena Carre√±o Marchant", 
                               "Social, Coordinador", 
                               ipa$especialidad)
-  ipa$especialidad <- if_else(ipa$nombre.usuario == "UranÌa Elisabeth GarcÈs Asenjo", 
+  ipa$especialidad <- if_else(ipa$nombre.usuario == "Uran√≠a Elisabeth Garc√©s Asenjo", 
                               "Abogado", 
                               ipa$especialidad)
-  ipa$especialidad <- if_else(ipa$nombre.usuario == "Vanessa Andrea AlarcÛn Porflidtt", 
+  ipa$especialidad <- if_else(ipa$nombre.usuario == "Vanessa Andrea Alarc√≥n Porflidtt", 
                               "Social, Coordinador", 
                               ipa$especialidad)
   }
 
 setwd("C:/Users/felip/Google Drive/Clusters CAVD/Dias trabajados")
-setwd("C:/Users/lgarcia/Documents/2019/08 Agosto/Clusters/DÌas trabajados")
+setwd("C:/Users/lgarcia/Documents/2019/08 Agosto/Clusters/D√≠as trabajados")
 
 rrhha <- read_xlsx(list.files()[1], sheet = "Hoja1")
 
@@ -616,11 +616,11 @@ rrhha <- rrhha %>%
               mutate(nombre.usuario = tolower(nombre.usuario)),
             by = "nombre.usuario"
   ) %>%
-  dplyr::mutate(nombre.usuario = gsub("·", "a", nombre.usuario),
-                nombre.usuario = gsub("È", "e", nombre.usuario),
-                nombre.usuario = gsub("Ì", "i", nombre.usuario),
-                nombre.usuario = gsub("Û", "o", nombre.usuario),
-                nombre.usuario = gsub("˙", "u", nombre.usuario)
+  dplyr::mutate(nombre.usuario = gsub("√°", "a", nombre.usuario),
+                nombre.usuario = gsub("√©", "e", nombre.usuario),
+                nombre.usuario = gsub("√≠", "i", nombre.usuario),
+                nombre.usuario = gsub("√≥", "o", nombre.usuario),
+                nombre.usuario = gsub("√∫", "u", nombre.usuario)
   )
 
 
@@ -642,11 +642,11 @@ for(i in 2 : length(list.files())){
                 mutate(nombre.usuario = tolower(nombre.usuario)),
               by = "nombre.usuario"
     )  %>%
-    dplyr::mutate(nombre.usuario = gsub("·", "a", nombre.usuario),
-                  nombre.usuario = gsub("È", "e", nombre.usuario),
-                  nombre.usuario = gsub("Ì", "i", nombre.usuario),
-                  nombre.usuario = gsub("Û", "o", nombre.usuario),
-                  nombre.usuario = gsub("˙", "u", nombre.usuario)
+    dplyr::mutate(nombre.usuario = gsub("√°", "a", nombre.usuario),
+                  nombre.usuario = gsub("√©", "e", nombre.usuario),
+                  nombre.usuario = gsub("√≠", "i", nombre.usuario),
+                  nombre.usuario = gsub("√≥", "o", nombre.usuario),
+                  nombre.usuario = gsub("√∫", "u", nombre.usuario)
     )
   
   rrhha <- rbind(rrhha, rrhhb)
@@ -661,7 +661,7 @@ rrhh <- rrhha %>%
 diasta <- rrhh %>%
   filter(grepl("Social", especialidad) == T |
            grepl("Abogado", especialidad) == T |
-           grepl("PsicÛlogo", especialidad) == T) %>%
+           grepl("Psic√≥logo", especialidad) == T) %>%
   group_by(CentroCosto, especialidad) %>%
   dplyr::summarise(s = sum(dias.trab)) %>%
   arrange(CentroCosto) %>%
@@ -702,7 +702,7 @@ diast %>%
   facet_wrap(~ key, scales = "free_y") +   
   geom_density()
 
-####DuraciÛn####
+####Duraci√≥n####
 
 dura <-  ssr %>%
   filter(ano.finalizacion == 2018) %>%
@@ -718,16 +718,16 @@ act <-  ipa %>%
   mutate(cavd = trimws(gsub("\\d+", "", cavd)),
          cavd2 = recode(cavd,
                         "Ancud" = "Castro",
-                        "PeÒalolen" = "Providencia",
-                        "AysÈn" = "Coyhaique",
+                        "Pe√±alolen" = "Providencia",
+                        "Ays√©n" = "Coyhaique",
                         "Collipulli" = "Angol",
                         "Til Til" = "Colina",
                         "Purranque" = "Osorno",
                         "Collipulli" = "Temuco",
                         "Puerto Natales" = "Punta Arenas",
-                        "San Antonio" = "ValparaÌso",
-                        "QuellÛn" = "Castro",
-                        "Los Angeles" = "Los ¡ngeles")
+                        "San Antonio" = "Valpara√≠so",
+                        "Quell√≥n" = "Castro",
+                        "Los Angeles" = "Los √Ångeles")
   ) %>%
   filter(ano.ingreso == 2018) %>%
   group_by(cavd2, categoria)  %>%
@@ -757,26 +757,26 @@ causas <- causasa %>%
          pat = if_else(year(patrocinio.poder) == 2018, 1, 0),
          q = if_else(year(querella) == 2018, 1, 0),
          cavd2 = recode(cavd2,
-                        "Chillan" = "Chill·n",
-                        "Copiapo" = "CopiapÛ",
-                        "Curico" = "CuricÛ",
-                        "Launion" = "La UniÛn",
-                        "Los Angeles" = "Los ¡ngeles",
-                        "Maipu" = "Maip˙",
-                        "PeÒalolen" = "Providencia",
-                        "San Antonio" = "ValparaÌso",
-                        "Valparaiso" = "ValparaÌso",
+                        "Chillan" = "Chill√°n",
+                        "Copiapo" = "Copiap√≥",
+                        "Curico" = "Curic√≥",
+                        "Launion" = "La Uni√≥n",
+                        "Los Angeles" = "Los √Ångeles",
+                        "Maipu" = "Maip√∫",
+                        "Pe√±alolen" = "Providencia",
+                        "San Antonio" = "Valpara√≠so",
+                        "Valparaiso" = "Valpara√≠so",
                         "Ancud" = "Castro",
-                        "PeÒalolen" = "Providencia",
-                        "AysÈn" = "Coyhaique",
+                        "Pe√±alolen" = "Providencia",
+                        "Ays√©n" = "Coyhaique",
                         "Collipulli" = "Angol",
                         "Til Til" = "Colina",
                         "Purranque" = "Osorno",
                         "Collipulli" = "Temuco",
                         "Puerto Natales" = "Punta Arenas",
-                        "San Antonio" = "ValparaÌso",
-                        "QuellÛn" = "Castro",
-                        "Los Angeles" = "Los ¡ngeles")
+                        "San Antonio" = "Valpara√≠so",
+                        "Quell√≥n" = "Castro",
+                        "Los Angeles" = "Los √Ångeles")
   ) %>%
   group_by(cavd2) %>%
   dplyr::summarise(pod = sum(pod, na.rm = T),
@@ -822,25 +822,25 @@ gesans <- ssr %>%
   modify_if(is.numeric, replace_na, 0)  %>%
   mutate(interna = (CCP + 
                       SIIN +  
-                      `DerivaciÛn interna` + 
-                      `OrientaciÛn de SOI` + 
-                      `SOI (Tercer contacto o Sin telÈfono)`) / n,
+                      `Derivaci√≥n interna` + 
+                      `Orientaci√≥n de SOI` + 
+                      `SOI (Tercer contacto o Sin tel√©fono)`) / n,
          t1 = `Finaliza T1` /n,
          t2 = `Finaliza T2` /n,
          t3 = `Finaliza T3` /n,
          cierre.administrativo = `Cierre Administrativo` /n,
          no.adscripcion = `No Adscrito` /n,
          ccp = `CCP` /n,
-         dem.espontanea = `Demanda espont·nea`  /n,
-         der.interna = `DerivaciÛn interna`  /n,
-         mp = `Ministerio P˙blico`   /n,
-         orien.soi = `OrientaciÛn de SOI`   /n,
+         dem.espontanea = `Demanda espont√°nea`  /n,
+         der.interna = `Derivaci√≥n interna`  /n,
+         mp = `Ministerio P√∫blico`   /n,
+         orien.soi = `Orientaci√≥n de SOI`   /n,
          otros.der = `Otros derivantes` /n,
          siin = `SIIN` /n,
-         tc.st.soi = `SOI (Tercer contacto o Sin telÈfono)` /n,
+         tc.st.soi = `SOI (Tercer contacto o Sin tel√©fono)` /n,
          fin_ing = nfin / n,
          ab = Abogado / n,
-         ps = `Profesional PsicÛlogo` / n,
+         ps = `Profesional Psic√≥logo` / n,
          soc = Social / n,
          pod = pod / n,
          pat = pat / n,
@@ -855,7 +855,7 @@ gesa <- gesans %>%
   data.frame() 
 
 
-####ges.gr·ficos####
+####ges.gr√°ficos####
 
 gesa1 <- gesa %>%
   dplyr::select(cavd2, uso.ci, asistencia,
@@ -961,8 +961,8 @@ gmacronsa <- macro %>%
   group_by(cavd2, producto) %>%
   dplyr::summarise(n = n()) %>%
   spread(value = n, key = producto, fill = 0) %>%
-  mutate(macro = `ArticulaciÛn con la Oferta de Seguridad P˙blica` +
-           `InserciÛn del Programa en el Territorio` +
+  mutate(macro = `Articulaci√≥n con la Oferta de Seguridad P√∫blica` +
+           `Inserci√≥n del Programa en el Territorio` +
            `Mesas Intersectoriales` +
            `Protocolos Intersectoriales`)
 
@@ -979,11 +979,11 @@ gmacro %>%
   geom_density()  +   
   scale_x_continuous(limits = c(-4.5, 4.5))
 
-####Gr·ficos car####
+####Gr√°ficos car####
 
 
-setwd("C:/Users/felip/Google Drive/Clusters CAVD/Gr·ficos")
-setwd("C:/Users/lgarcia/Documents/2019/08 Agosto/Clusters/Gr·ficos")
+setwd("C:/Users/felip/Google Drive/Clusters CAVD/Gr√°ficos")
+setwd("C:/Users/lgarcia/Documents/2019/08 Agosto/Clusters/Gr√°ficos")
 
 
 carg <- grupo %>%
@@ -1246,7 +1246,7 @@ gcar1 <- grid.arrange(gcar1,
 )
 
 
-####Gr·ficos ges####
+####Gr√°ficos ges####
 
 
 gesg <- gesans %>%
@@ -1270,14 +1270,14 @@ colnames(gesg) <- c('Uso de CI',
                     "Tiempo dedicado a Actividades directas",
                     "Tiempo dedicado a Actividades indirectas",
                     'Promedio de casos vigentes diarios',
-                    "DuraciÛn promedio de casos",
-                    "VÌa interna (Primera respuesta o DerivaciÛn interna)",
+                    "Duraci√≥n promedio de casos",
+                    "V√≠a interna (Primera respuesta o Derivaci√≥n interna)",
                     'Demanda espontanea',
                     'Otros derivantes',
                     'Finaliza T1',
                     'Finaliza T2',
                     'Cierre administrativo',
-                    "No adscripciÛn",
+                    "No adscripci√≥n",
                     'k2',
                     'k3',
                     'k4',
@@ -1534,7 +1534,7 @@ gges11 <- ggplot(gesg, aes(y = gesg[, 11],
   coord_flip() +
   guides(fill = F) +
   scale_fill_manual(values = wes_palette('Cavalcanti1')) +
-  ggtitle("VÌa interna (Primera Respuesta \n o DerivaciÛn interna)") +
+  ggtitle("V√≠a interna (Primera Respuesta \n o Derivaci√≥n interna)") +
   theme_minimal() +
   theme(axis.text.y = element_text(color = color.ges.w[gesg[ order(gesg[[11]]),] %>%
                                                          select(Grupo) %>%
@@ -1795,7 +1795,7 @@ ggscatter(mds, x = "Dim.1", y = "Dim.2",
 )
 
 
-####Gr·ficos int####
+####Gr√°ficos int####
 
 intg <- intf %>%
   rownames_to_column("cavd") %>%
@@ -1824,11 +1824,11 @@ intg <-  intg %>%
 colnames(intg) <- c(
   'Prestaciones juridicas por victima',
   'Prestaciones sociales por victima',
-  'Prestaciones psicolÛgicas por victima',
+  'Prestaciones psicol√≥gicas por victima',
   'Actividades macrosociales',
-  'Poderes simples por vÌctima',
-  "Patrocinios de poder por vÌctima",
-  "Querellas por vÌctima",
+  'Poderes simples por v√≠ctima',
+  "Patrocinios de poder por v√≠ctima",
+  "Querellas por v√≠ctima",
   'k2',
   'k3',
   'k4',
@@ -1872,7 +1872,7 @@ gint1 <- ggplot(intg, aes(y = intg[, 1],
   coord_flip() +
   guides(fill = F) +
   scale_fill_manual(values = color.int.w) +
-  ggtitle("Prestaciones jurÌdicas\npor vÌctima") +
+  ggtitle("Prestaciones jur√≠dicas\npor v√≠ctima") +
   theme_minimal() +
   theme(axis.text.y = element_text(color = color.int.w[intg[ order(intg[[1]]),] %>%
                                                          select(Grupo) %>%
@@ -1893,7 +1893,7 @@ gint2 <- ggplot(intg, aes(y = intg[, 2],
   coord_flip() +
   guides(fill = F) +
   scale_fill_manual(values = color.int.w) +
-  ggtitle("Prestaciones sociales\npor vÌctima") +
+  ggtitle("Prestaciones sociales\npor v√≠ctima") +
   theme_minimal() +
   theme(axis.text.y = element_text(color = color.int.w[intg[ order(intg[[2]]),] %>%
                                                          select(Grupo) %>%
@@ -1913,7 +1913,7 @@ gint3 <- ggplot(intg, aes(y = intg[, 3],
   coord_flip() +
   guides(fill = F) +
   scale_fill_manual(values = color.int.w) +
-  ggtitle("Prestaciones\npor vÌctima") +
+  ggtitle("Prestaciones\npor v√≠ctima") +
   theme_minimal() +
   theme(axis.text.y = element_text(color = color.int.w[intg[ order(intg[[3]]),] %>%
                                                          select(Grupo) %>%
@@ -2037,7 +2037,7 @@ cruce <- select(gesg, cavd, kges = Grupo) %>%
 table(cruce$gf)
 
 
-#Representantes de grupos para sacar el conglomerado para el gr·fico
+#Representantes de grupos para sacar el conglomerado para el gr√°fico
 
 rcar1 <- carg[carg$Grupo == "1", ]$Grupo
 rcar2 <- carg[carg$Grupo == "2", ]$Grupo
@@ -2102,7 +2102,7 @@ alu <- ggplot(as.data.frame(gcruce %>%
   geom_alluvium(aes(fill = kcar)) +
   geom_stratum() +
   geom_text(stat = "stratum", label.strata = TRUE, size = 3) +
-  scale_x_discrete(limits = c("Contexto", "IntervenciÛn", 'GestiÛn'), expand = c(.05, .05)) +
+  scale_x_discrete(limits = c("Contexto", "Intervenci√≥n", 'Gesti√≥n'), expand = c(.05, .05)) +
   scale_fill_manual(values = wes_palette("BottleRocket2")) +
   theme_minimal() +
   guides(fill = F) +
@@ -2113,7 +2113,7 @@ alu <- ggplot(as.data.frame(gcruce %>%
 alu
 ggsave("g13.jpeg", alu, height = 5, width = 6, units = "in")
 
-####Gr·ficos de validaciÛn####
+####Gr√°ficos de validaci√≥n####
 
 g14 = fviz_silhouette(gruk4) +
   scale_fill_manual(values = wes_palette("IsleofDogs1")) +
@@ -2176,21 +2176,21 @@ g19 = fviz_cluster(kintk3, repel = T, main = F)+
 ggsave("g19.jpeg", g19, height = 6, width = 6, units = "in")
 
 
-####Gr·ficos presentaciÛn####
+####Gr√°ficos presentaci√≥n####
 
-####Gr·ficos presentacion.car####
+####Gr√°ficos presentacion.car####
 
 carg <- carg %>%
   mutate(Grupo = if_else(cavd %in% c("Alto Hospicio", "Angol",  "Antofagasta", "Castro" ,
-                                     "Colina" , "CuricÛ",  "Huechuraba", "Iquique", 
+                                     "Colina" , "Curic√≥",  "Huechuraba", "Iquique", 
                                      "La Serena", "Osorno", "Puerto Montt", "San Bernardo", 
                                      "Temuco", "Valdivia" ), "4", 
-                         if_else(cavd %in% c("Arica", "ConcepciÛn", "CopiapÛ",
+                         if_else(cavd %in% c("Arica", "Concepci√≥n", "Copiap√≥",
                                              "Coquimbo", "Coyhaique", "Lampa", "Melipilla",
                                              "Padre Hurtado", "Rancagua", "San Felipe", "Talca" ), "3", 
-                                 if_else(cavd %in% c("La Florida", "Maip˙",  "Providencia", "Pudahuel", 
+                                 if_else(cavd %in% c("La Florida", "Maip√∫",  "Providencia", "Pudahuel", 
                                                      "Puente Alto", "Recoleta", "Santiago",
-                            "ValparaÌso"), 
+                            "Valpara√≠so"), 
                             "2", 
                             "1"))))
 
@@ -3093,21 +3093,21 @@ ggsave("g9_car_4.jpeg", gcar9, height = 5.8, width = 10.44, units = "cm")
 
 
 
-####Gr·ficos presentacion.ges####
+####Gr√°ficos presentacion.ges####
 
 gesg <- gesg %>%
   mutate(
-    Grupo = if_else(cavd %in% c("ConcepciÛn", "La Cisterna", "La Florida", 
-                                "Maip˙", "Providencia", "Pudahuel", "Puente Alto", 
+    Grupo = if_else(cavd %in% c("Concepci√≥n", "La Cisterna", "La Florida", 
+                                "Maip√∫", "Providencia", "Pudahuel", "Puente Alto", 
                                 "Rancagua", "Recoleta", "Santiago", "Talca", "Temuco" , 
-                                "ValparaÌso" ), "1", "2"),
+                                "Valpara√≠so" ), "1", "2"),
     alpha1 = ifelse(Grupo == "1", 1, .2),
     alpha2 = ifelse(Grupo == "2", 1, .2)
   )
 
 ####Grupo 1.pres.ges####
 
-setwd("C:/Users/lgarcia/Documents/2019/12 Diciembre/Graficos/GestiÛn/Grupo 1")
+setwd("C:/Users/lgarcia/Documents/2019/12 Diciembre/Graficos/Gesti√≥n/Grupo 1")
 
 gges1 <- ggplot(gesg, aes(y = gesg[, 1],
                           x = reorder(cavd, gesg[, 1]),
@@ -3258,7 +3258,7 @@ gges10 <- ggplot(gesg, aes(y = gesg[, 10],
   coord_flip() +
   guides(fill = F, alpha = F) +
   scale_fill_manual(values = wes_palette('Cavalcanti1')) +
-  ggtitle("DuraciÛn promedio\nde casos") +
+  ggtitle("Duraci√≥n promedio\nde casos") +
   theme_minimal() +
   theme(axis.text.y = element_blank(),
         axis.title = element_blank(),
@@ -3274,7 +3274,7 @@ gges11 <- ggplot(gesg, aes(y = gesg[, 11],
   coord_flip() +
   guides(fill = F, alpha = F) +
   scale_fill_manual(values = wes_palette('Cavalcanti1')) +
-  ggtitle("VÌa de ingreso\ninterna") +
+  ggtitle("V√≠a de ingreso\ninterna") +
   theme_minimal() +
   theme(axis.text.y = element_blank(),
         axis.title = element_blank(),
@@ -3417,7 +3417,7 @@ ggsave("g1_ges_17_b.jpeg", gges17, height = 3.8, width = 4.46, units = "cm")
 
 ####Grupo 2.pres.ges####
 
-setwd("C:/Users/lgarcia/Documents/2019/12 Diciembre/Graficos/GestiÛn/Grupo 2")
+setwd("C:/Users/lgarcia/Documents/2019/12 Diciembre/Graficos/Gesti√≥n/Grupo 2")
 
 gges1 <- ggplot(gesg, aes(y = gesg[, 1],
                           x = reorder(cavd, gesg[, 1]),
@@ -3568,7 +3568,7 @@ gges10 <- ggplot(gesg, aes(y = gesg[, 10],
   coord_flip() +
   guides(fill = F, alpha = F) +
   scale_fill_manual(values = wes_palette('Cavalcanti1')) +
-  ggtitle("DuraciÛn promedio\nde casos") +
+  ggtitle("Duraci√≥n promedio\nde casos") +
   theme_minimal() +
   theme(axis.text.y = element_blank(),
         axis.title = element_blank(),
@@ -3584,7 +3584,7 @@ gges11 <- ggplot(gesg, aes(y = gesg[, 11],
   coord_flip() +
   guides(fill = F, alpha = F) +
   scale_fill_manual(values = wes_palette('Cavalcanti1')) +
-  ggtitle("VÌa de ingreso\ninterna") +
+  ggtitle("V√≠a de ingreso\ninterna") +
   theme_minimal() +
   theme(axis.text.y = element_blank(),
         axis.title = element_blank(),
@@ -3726,12 +3726,12 @@ ggsave("g2_ges_17_b.jpeg", gges17, height = 3.8, width = 4.46, units = "cm")
 
 
 
-####Gr·ficos presentacion.int####
+####Gr√°ficos presentacion.int####
 
 intg <- intg %>%
-  mutate(Grupo = if_else(cavd %in% c("Castro", "Huechuraba", "La UniÛn", 
+  mutate(Grupo = if_else(cavd %in% c("Castro", "Huechuraba", "La Uni√≥n", 
                                      "Punta Arenas"), "1",
-                         if_else(cavd %in% c("Angol", "Arica",     "Colina", "CopiapÛ",   
+                         if_else(cavd %in% c("Angol", "Arica",     "Colina", "Copiap√≥",   
                                              "Coyhaique", "La Serena", "Linares",   
                                              "Osorno", "Rancagua", "Recoleta" , 
                                              "Talca"), "2", "3")
@@ -3743,7 +3743,7 @@ intg <- intg %>%
 
 ####Grupo1.pres.int####
 
-setwd("C:/Users/lgarcia/Documents/2019/12 Diciembre/Graficos/IntervenciÛn/Grupo 1")
+setwd("C:/Users/lgarcia/Documents/2019/12 Diciembre/Graficos/Intervenci√≥n/Grupo 1")
 
 gint1 <- ggplot(intg, aes(y = intg[, 1],
                           x = reorder(cavd, as.numeric(intg[, 1])),
@@ -3754,7 +3754,7 @@ gint1 <- ggplot(intg, aes(y = intg[, 1],
   coord_flip() +
   guides(fill = F, alpha = F) +
   scale_fill_manual(values = color.int.w) +
-  ggtitle("Prestaciones jurÌdicas\npor vÌctima") +
+  ggtitle("Prestaciones jur√≠dicas\npor v√≠ctima") +
   theme_minimal() +
   theme(axis.text.y = element_text(color = color.int.w[intg[ order(intg[[1]]),] %>%
                                                          select(Grupo) %>%
@@ -3775,7 +3775,7 @@ gint2 <- ggplot(intg, aes(y = intg[, 2],
   coord_flip() +
   guides(fill = F, alpha = F) +
   scale_fill_manual(values = color.int.w) +
-  ggtitle("Prestaciones sociales\npor vÌctima") +
+  ggtitle("Prestaciones sociales\npor v√≠ctima") +
   theme_minimal() +
   theme(axis.text.y = element_text(color = color.int.w[intg[ order(intg[[2]]),] %>%
                                                          select(Grupo) %>%
@@ -3795,7 +3795,7 @@ gint3 <- ggplot(intg, aes(y = intg[, 3],
   coord_flip() +
   guides(fill = F, alpha = F) +
   scale_fill_manual(values = color.int.w) +
-  ggtitle("Prestaciones\npor vÌctima") +
+  ggtitle("Prestaciones\npor v√≠ctima") +
   theme_minimal() +
   theme(axis.text.y = element_text(color = color.int.w[intg[ order(intg[[3]]),] %>%
                                                          select(Grupo) %>%
@@ -3895,7 +3895,7 @@ ggsave("g1_int_7.jpeg", gint7, height = 5.8, width = 10.44, units = "cm")
 
 ####Grupo2.pres.int####
 
-setwd("C:/Users/lgarcia/Documents/2019/12 Diciembre/Graficos/IntervenciÛn/Grupo 2")
+setwd("C:/Users/lgarcia/Documents/2019/12 Diciembre/Graficos/Intervenci√≥n/Grupo 2")
 
 gint1 <- ggplot(intg, aes(y = intg[, 1],
                           x = reorder(cavd, as.numeric(intg[, 1])),
@@ -3906,7 +3906,7 @@ gint1 <- ggplot(intg, aes(y = intg[, 1],
   coord_flip() +
   guides(fill = F, alpha = F) +
   scale_fill_manual(values = color.int.w) +
-  ggtitle("Prestaciones jurÌdicas\npor vÌctima") +
+  ggtitle("Prestaciones jur√≠dicas\npor v√≠ctima") +
   theme_minimal() +
   theme(axis.text.y = element_text(color = color.int.w[intg[ order(intg[[1]]),] %>%
                                                          select(Grupo) %>%
@@ -3927,7 +3927,7 @@ gint2 <- ggplot(intg, aes(y = intg[, 2],
   coord_flip() +
   guides(fill = F, alpha = F) +
   scale_fill_manual(values = color.int.w) +
-  ggtitle("Prestaciones sociales\npor vÌctima") +
+  ggtitle("Prestaciones sociales\npor v√≠ctima") +
   theme_minimal() +
   theme(axis.text.y = element_text(color = color.int.w[intg[ order(intg[[2]]),] %>%
                                                          select(Grupo) %>%
@@ -3947,7 +3947,7 @@ gint3 <- ggplot(intg, aes(y = intg[, 3],
   coord_flip() +
   guides(fill = F, alpha = F) +
   scale_fill_manual(values = color.int.w) +
-  ggtitle("Prestaciones\npor vÌctima") +
+  ggtitle("Prestaciones\npor v√≠ctima") +
   theme_minimal() +
   theme(axis.text.y = element_text(color = color.int.w[intg[ order(intg[[3]]),] %>%
                                                          select(Grupo) %>%
@@ -4052,7 +4052,7 @@ ggsave("g2_int_7.jpeg", gint7, height = 5.8, width = 10.44, units = "cm")
 
 ####Grupo3.pres.int####
 
-setwd("C:/Users/lgarcia/Documents/2019/12 Diciembre/Graficos/IntervenciÛn/Grupo 3")
+setwd("C:/Users/lgarcia/Documents/2019/12 Diciembre/Graficos/Intervenci√≥n/Grupo 3")
 
 gint1 <- ggplot(intg, aes(y = intg[, 1],
                           x = reorder(cavd, as.numeric(intg[, 1])),
@@ -4063,7 +4063,7 @@ gint1 <- ggplot(intg, aes(y = intg[, 1],
   coord_flip() +
   guides(fill = F, alpha = F) +
   scale_fill_manual(values = color.int.w) +
-  ggtitle("Prestaciones jurÌdicas\npor vÌctima") +
+  ggtitle("Prestaciones jur√≠dicas\npor v√≠ctima") +
   theme_minimal() +
   theme(axis.text.y = element_text(color = color.int.w[intg[ order(intg[[1]]),] %>%
                                                          select(Grupo) %>%
@@ -4084,7 +4084,7 @@ gint2 <- ggplot(intg, aes(y = intg[, 2],
   coord_flip() +
   guides(fill = F, alpha = F) +
   scale_fill_manual(values = color.int.w) +
-  ggtitle("Prestaciones sociales\npor vÌctima") +
+  ggtitle("Prestaciones sociales\npor v√≠ctima") +
   theme_minimal() +
   theme(axis.text.y = element_text(color = color.int.w[intg[ order(intg[[2]]),] %>%
                                                          select(Grupo) %>%
@@ -4104,7 +4104,7 @@ gint3 <- ggplot(intg, aes(y = intg[, 3],
   coord_flip() +
   guides(fill = F, alpha = F) +
   scale_fill_manual(values = color.int.w) +
-  ggtitle("Prestaciones\npor vÌctima") +
+  ggtitle("Prestaciones\npor v√≠ctima") +
   theme_minimal() +
   theme(axis.text.y = element_text(color = color.int.w[intg[ order(intg[[3]]),] %>%
                                                          select(Grupo) %>%
